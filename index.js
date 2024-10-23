@@ -14,18 +14,12 @@ app.use(express.json())
 dotenv.config();
 
 const PORT = process.env.PORT || 4000;
-const URL = process.env.MongodbURL;
+const URL = process.env.Mongodb_URL;
 
 // connect to mongoDB
-try {
-  mongoose.connect(URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  });
-  console.log("connected to mongodb")
-} catch (error) {
-  console.log("Error in conncetion: ", error)
-}
+mongoose.connect(URL)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((error) => console.log("Error in connection: ", error));
 
 //defining routes
 app.use("/api/burger", burgerRoute)
@@ -33,6 +27,6 @@ app.use("/api/burger", burgerRoute)
 app.use("/api/user", userRoute)
 
 
-app.listen(process.env.PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`)
 })
